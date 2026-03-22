@@ -1,13 +1,26 @@
 const express = require('express');
+require('dotenv').config();
+
 const app = express();
 
+// Middleware
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('API is running...');
+// Routes
+const authRoutes = require('./routes/authRoutes');
+// const protectedRoutes = require('./routes/protectedRoutes');
+
+app.use('/api/auth', authRoutes);
+// app.use('/api', protectedRoutes);
+
+// Default route
+app.get('/health', (req, res) => {
+  res.send('EkseRoomza API is running...');
 });
 
-const PORT = 3000;
+// Start server
+const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
